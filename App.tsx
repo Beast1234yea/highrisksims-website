@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { HashRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { Lock } from 'lucide-react';
 
 // Components
@@ -15,7 +15,8 @@ import ContactPage from './pages/ContactPage';
 import CaseStudiesPage from './pages/CaseStudiesPage';
 import SimulationDemosPage from './pages/SimulationDemosPage';
 
-const ACCESS_PASSWORD = 'highrisksims2026';
+const FULL_ACCESS_PASSWORD = 'highrisksims2026';
+const DEMOS_ONLY_PASSWORD = 'demos2026';
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -25,25 +26,33 @@ const ScrollToTop = () => {
   return null;
 };
 
+type AccessLevel = 'none' | 'demos' | 'full';
+
 const App: React.FC = () => {
-  const [isUnlocked, setIsUnlocked] = useState(() => {
-    return sessionStorage.getItem('site_unlocked') === 'true';
+  const [accessLevel, setAccessLevel] = useState<AccessLevel>(() => {
+    const stored = sessionStorage.getItem('access_level');
+    if (stored === 'full' || stored === 'demos') return stored;
+    return 'none';
   });
   const [password, setPassword] = useState('');
   const [error, setError] = useState(false);
 
   const handleUnlock = (e: React.FormEvent) => {
     e.preventDefault();
-    if (password === ACCESS_PASSWORD) {
-      setIsUnlocked(true);
-      sessionStorage.setItem('site_unlocked', 'true');
+    if (password === FULL_ACCESS_PASSWORD) {
+      setAccessLevel('full');
+      sessionStorage.setItem('access_level', 'full');
+      setError(false);
+    } else if (password === DEMOS_ONLY_PASSWORD) {
+      setAccessLevel('demos');
+      sessionStorage.setItem('access_level', 'demos');
       setError(false);
     } else {
       setError(true);
     }
   };
 
-  if (!isUnlocked) {
+  if (accessLevel === 'none') {
     return (
       <div className="min-h-screen bg-[#1a102e] text-white flex items-center justify-center px-4">
         <div className="max-w-md w-full">
@@ -80,6 +89,28 @@ const App: React.FC = () => {
     );
   }
 
+  // Demos-only access: only show demos page, redirect everything else
+  if (accessLevel === 'demos') {
+    return (
+      <Router>
+        <ScrollToTop />
+        <div className="flex flex-col min-h-screen bg-[#1a102e] text-white">
+          <div className="bg-white/5 border-b border-white/10 py-4 px-6 flex items-center justify-between">
+            <span className="text-xl font-bold font-heading text-accent-gold">High Risk Sims</span>
+            <span className="text-xs text-gray-500 bg-white/5 px-3 py-1 rounded-full">Demo Access</span>
+          </div>
+          <main className="flex-grow">
+            <Routes>
+              <Route path="/demos" element={<SimulationDemosPage />} />
+              <Route path="*" element={<Navigate to="/demos" replace />} />
+            </Routes>
+          </main>
+        </div>
+      </Router>
+    );
+  }
+
+  // Full access: show everything
   return (
     <Router>
       <ScrollToTop />
