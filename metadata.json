@@ -1,0 +1,8 @@
+{
+  "name": "High Risk Sims",
+  "description": "End-to-end technology solutions for Australian RTOs delivering nationally recognized training and high-risk work licensing.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
