@@ -367,7 +367,7 @@ const SimulationDemosPage: React.FC = () => {
             </div>
             <div className="bg-white" style={{ height: '900px' }}>
               <iframe
-                src="http://localhost:5000/dogging-sling-angles"
+                src="https://rtoweblms-production-7f62.up.railway.app/dogging-sling-angles"
                 className="w-full h-full border-0"
                 title="Sling Angle Calculator"
               />
@@ -387,7 +387,7 @@ const SimulationDemosPage: React.FC = () => {
             </div>
             <div className="bg-white" style={{ height: '900px' }}>
               <iframe
-                src="http://localhost:5000/dogging-load-factors"
+                src="https://rtoweblms-production-7f62.up.railway.app/dogging-load-factors"
                 className="w-full h-full border-0"
                 title="Load Factor Calculator"
               />
@@ -406,7 +406,7 @@ const SimulationDemosPage: React.FC = () => {
             </div>
             <div className="bg-white" style={{ height: '900px' }}>
               <iframe
-                src="http://localhost:5000/winch-setup"
+                src="https://rtoweblms-production-7f62.up.railway.app/winch-setup"
                 className="w-full h-full border-0"
                 title="Winch Setup Calculator"
               />
