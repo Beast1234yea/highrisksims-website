@@ -1,9 +1,15 @@
-# Build stage
+# Build stage - clone with LFS to get actual video/model files
 FROM node:20-alpine AS build
+RUN apk add --no-cache git git-lfs
 WORKDIR /app
-COPY package.json package-lock.json ./
+
+# Clone repo with LFS files
+RUN git lfs install
+RUN git clone https://github.com/Beast1234yea/highrisksims-website.git .
+RUN git lfs pull
+
+# Build the app
 RUN npm ci
-COPY . .
 RUN npm run build
 
 # Production stage
