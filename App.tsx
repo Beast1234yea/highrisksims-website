@@ -16,7 +16,7 @@ import CaseStudiesPage from './pages/CaseStudiesPage';
 import SimulationDemosPage from './pages/SimulationDemosPage';
 
 const FULL_ACCESS_PASSWORD = 'highrisksims2026';
-const DEMOS_ONLY_PASSWORD = 'demos2026';
+const DEMOS_ONLY_PASSWORD = 'HRWdemo2026';
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
